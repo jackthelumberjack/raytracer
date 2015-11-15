@@ -1,6 +1,5 @@
 #include "Intersection.hpp"
 #include "Geometry.hpp"
-#include "Line.hpp"
 
 using namespace rt;
 

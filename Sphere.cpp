@@ -2,7 +2,7 @@
 
 using namespace rt;
 
-Intersection Sphere::getIntersection(const Line& line, 
+Intersection Sphere::getIntersection(const Line& line,
                                      double minDist,
                                      double maxDist) {
   Intersection in;
@@ -12,7 +12,7 @@ Intersection Sphere::getIntersection(const Line& line,
   double C = (line.x0()-_center)*(line.x0()-_center)-(_radius*_radius);
 
   double dt = B*B-4*A*C;
-  double t;
+  double t = 0;
 
   if (dt == 0) {
     t = (-B)/(2*A);

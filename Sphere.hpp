@@ -15,15 +15,17 @@ namespace rt {
     double _radius;
 
   public:
-    Sphere(const Vector& center, double radius, const Color& color) 
-    : Geometry(color) {
+    Sphere(const Vector& center, double radius, const Color& color, const Color& ambient, const Color& diffuse,
+           const Color& specular, double shininess, double opacity, double reflectivity, double lightIntensity)
+    : Geometry(color, ambient, diffuse, specular, shininess, opacity, reflectivity, lightIntensity) {
       _center = Vector(center);
       _radius = radius;
     }
 
     Sphere(double x, double y, double z, double radius,
-           double r, double g, double b) 
-    : Geometry (Color(r, g, b)){
+           const Color& color, const Color& ambient, const Color& diffuse, const Color& specular,
+           double shininess, double opacity, double reflectivity, double lightIntensity)
+    : Geometry (color, ambient, diffuse, specular, shininess, opacity, reflectivity, lightIntensity) {
       _center = Vector(x, y, z);
       _radius = radius;
     }
