@@ -27,8 +27,7 @@ const Intersection findFirstIntersection(const Line& ray,
     if(in.valid()) {
       if(!intersection.valid()) {
         intersection = in;
-      }
-      else if(in.t() < intersection.t()) {
+      } else if(in.t() < intersection.t()) {
         intersection = in;
       }
     }
@@ -59,16 +58,16 @@ int main() {
   viewParallel.normalize();
 
   Image image(imageWidth, imageHeight);
-  Sphere light = (Sphere&)*scene[7];
+  Sphere light[1] = {(Sphere&)*scene[7]};
 
   for (int x = 0; x < imageWidth; x++) {
     for (int y = 0; y < imageHeight; y++) {
       Vector x1(viewPoint + viewDirection*viewPlaneDist + viewUp*imageToViewPlane(y, imageHeight, viewPlaneHeight) +
                 viewParallel*imageToViewPlane(x, imageWidth, viewPlaneWidth));
 
-      Vector x0(viewPoint.x(), viewPoint.y(), viewPoint.z());
+//      Vector x0(viewPoint.x(), viewPoint.y(), viewPoint.z());
 
-      Line ray(x0, x1, false);
+      Line ray(viewPoint, x1, false);
 
       Intersection first = findFirstIntersection(ray, frontPlaneDist, backPlaneDist);
       if (first.valid()) {
@@ -77,19 +76,21 @@ int main() {
           color = first.geometry().color();
         } else {
           color = first.geometry().color();
-          color += first.geometry().ambient()*light.ambient();
-          Vector n = first.vec() - ((Sphere&)first.geometry()).center();
-          n.normalize();
-          Vector t = light.center() - first.vec();
-          t.normalize();
-          if (n*t > 0) {
-            color += first.geometry().diffuse()*light.diffuse()*(n*t);
-          }
-          Vector e = Vector(0,0,0)-first.vec();
-          e.normalize();
-          Vector r = n*(n*t)*2-t;
-          if (e*r > 0) {
-            color += first.geometry().specular()*light.specular()*pow(e*r, first.geometry().shininess());
+          for (int i = 0; i < 1; i++) {
+            color += first.geometry().ambient() * light[i].ambient();
+            Vector n = first.vec() - ((Sphere &) first.geometry()).center();
+            n.normalize();
+            Vector t = light[i].center() - first.vec();
+            t.normalize();
+            if (n * t > 0) {
+              color += first.geometry().diffuse() * light[i].diffuse() * (n * t);
+            }
+            Vector e = viewPoint - first.vec();
+            e.normalize();
+            Vector r = n * (n * t) * 2 - t;
+            if (e * r > 0) {
+              color += first.geometry().specular() * light[i].specular() * pow(e * r, first.geometry().shininess());
+            }
           }
         }
         image.setPixel(x, y, color);
