@@ -75,7 +75,7 @@ int main() {
         if (first.geometry().lightIntensity() > 0) {
           color = first.geometry().color();
         } else {
-          color = first.geometry().color();
+          color = first.geometry().color()*first.geometry().ambient();
           for (int i = 0; i < 1; i++) {
             color += first.geometry().ambient() * light[i].ambient();
             Vector n = first.vec() - ((Sphere &) first.geometry()).center();
@@ -99,7 +99,7 @@ int main() {
     }
   }
 
-  image.store("/home/sbreban/Downloads/scene.ppm");
+  image.store("/home/sergiu/Downloads/scene.ppm");
 
   for(int i=0; i<geometryCount; i++) {
     delete scene[i];
